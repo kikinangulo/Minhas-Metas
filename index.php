@@ -114,7 +114,7 @@ shortcut.add("Enter",function(){
 
     <section id="samples" class="clearfix"><? if($user){ ?>
 <?
-if($_GET["meta"] != ""){
+/*if($_GET["meta"] != ""){
    $sel33 = sel("metas".anoAgora(),"chave = '".str($_GET["meta"])."'");
    $p = fetch($sel33);
    ?>      <h1>Uma das metas de <a href="<?= $p["userlink"] ?>" target="_blank"><?= $p["username"] ?></a></h1>
@@ -130,12 +130,12 @@ if($_GET["meta"] != ""){
    if($_GET["i"] != ""){
       $idUSUARIO = str($_GET["i"]);
       listaMetas($idUSUARIO,1);
-   }else{
+   }else{*/
       $idUSUARIO = $user_profile['id'];
       listaMetas($idUSUARIO);
-   }
+   /*}
 
-}
+}*/
 }
 ?>
 

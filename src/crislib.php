@@ -62,7 +62,7 @@ function escape($string){
  * @return int $num
  */
 function total($query){
-	$num = mysql_num_rows($query);
+	$num = @mysql_num_rows($query);
 	return $num;
 }
 
@@ -75,7 +75,7 @@ function total($query){
  * @return array
  */
 function fetch($query){
-	$fetch = mysql_fetch_array($query);
+	$fetch = @mysql_fetch_array($query);
 	return $fetch;
 }
 
@@ -87,7 +87,7 @@ function fetch($query){
  * @return string
  */
 function str($nome){
-	return mysql_real_escape_string($nome);
+	return @mysql_real_escape_string($nome);
 }
 
 
@@ -348,7 +348,7 @@ function sel($tabela, $condicoes, $ordem = false, $limite = false){
 	if($limite != ""){
 		$query .= " LIMIT $limite";
 	}
-	$sql = mysql_query($query) or die(mysql_error());
+	$sql = @mysql_query($query) or die(mysql_error());
 	return $sql;
 }
 
@@ -363,7 +363,7 @@ function sel($tabela, $condicoes, $ordem = false, $limite = false){
  * @return string
  */
 function campo($tabela, $campo, $id){
-	$sel = mysql_query("SELECT * FROM $tabela WHERE id = '$id'") or die(mysql_error());
+	$sel = @mysql_query("SELECT * FROM $tabela WHERE id = '$id'") or die(mysql_error());
 	$r = mysql_fetch_array($sel);
 	return $r[$campo];
 }
@@ -380,7 +380,7 @@ function campo($tabela, $campo, $id){
  */
 function ins($tabela, $campos, $valores){
 	$query = "INSERT INTO $tabela ($campos) VALUES ($valores)";
-	$sql = mysql_query($query) or die(mysql_error());
+	$sql = @mysql_query($query) or die(mysql_error());
 	return $sql;
 }
 
@@ -396,7 +396,7 @@ function ins($tabela, $campos, $valores){
  */
 function upd($tabela, $dados, $id){
 	$query = "UPDATE $tabela SET $dados WHERE id = '$id'";
-	$sql = mysql_query($query) or die(mysql_error());
+	$sql = @mysql_query($query) or die(mysql_error());
 	return $sql;
 }
 
@@ -411,7 +411,7 @@ function upd($tabela, $dados, $id){
  */
 function del($tabela, $id){
 	$query = "DELETE FROM $tabela WHERE id = '$id'";
-	$sql = mysql_query($query) or die(mysql_error());
+	$sql = @mysql_query($query) or die(mysql_error());
 	return $sql;
 }
 
@@ -425,7 +425,7 @@ function del($tabela, $id){
  * @return true|die		if die, print mysql_error
  */
 function createT($nometabela,$campos){
-	$sql = mysql_query("CREATE TABLE IF NOT EXISTS $nometabela ( id int(11), $campos, primary key(id) )") or die(mysql_error());
+	$sql = @mysql_query("CREATE TABLE IF NOT EXISTS $nometabela ( id int(11), $campos, primary key(id) )") or die(mysql_error());
 	return $sql;
 }
 
@@ -880,7 +880,7 @@ function rlog($descricao){
 	 */ 
 	 
 	//verifica se a tabela existe e, se não existe, cria
-	$create = mysql_query("CREATE TABLE IF NOT EXISTS logs_".date("Ym")." ( `id` int(11) NOT NULL auto_increment, `cliente` text, `usuario` text, `acao` text, `data` datetime default NULL, PRIMARY KEY  (`id`) )") or die(mysql_error());
+	$create = @mysql_query("CREATE TABLE IF NOT EXISTS logs_".date("Ym")." ( `id` int(11) NOT NULL auto_increment, `cliente` text, `usuario` text, `acao` text, `data` datetime default NULL, PRIMARY KEY  (`id`) )") or die(mysql_error());
 	
 	$ins = ins("logs_".date("Ym"),"cliente, usuario, acao, data","'$cliente', '$usuario', '$descricao', '$data'");
 }
@@ -918,6 +918,9 @@ include("nomedoarquivo.php");
 date_default_timezone_set('America/Sao_Paulo');
 micoxdecode();
 
+error_reporting(0);
+ini_set('display_errors','Off');
+
 function conexao(){
    con("usuario","senha");
    db("meudb");
@@ -942,72 +945,5 @@ function janelaUI($nomejanela,$nomedivajax,$width,$height,$conteudo=false){
 		</div>
 		<?
 }
-
-function listaMetas($userid,$visitante=false){
-
-if($visitante == true){
-   $buscaam = sel("metas".anoAgora(),"userid = '$userid'","id DESC",1);
-   $j = fetch($buscaam);
-   $nomeAmigo = $j["username"];
-   if($nomeAmigo == ""){
-      $titulo = "Seu amigo n&atilde;o tem metas para ".anoAgora()." at&eacute; o momento.";
-   }else{
-      $titulo = "Veja as metas de $nomeAmigo";
-   }
-}
-
-              $sel1 = sel("metas".anoAgora(),"userid = '$userid'","id DESC");
-?>
-
-     
-<div id="listaTarefas">
-     <br><br> <h1><? if($visitante == true){ echo $titulo; }else{ echo "Voc&ecirc; tem ".total($sel1)." metas para ".anoAgora(); } ?></h1>
-              <?
-while($r = fetch($sel1)){
-
-$data = explode(" ",$r["data"]);
-$dt = data($data[0]);
-$hora = substr($data[1],0,5);
-
-
-if($r["status"] == 1){
-    #echo " style=\"background-image: url(/stylesheets/completo.png)\"";
-    $textBt = "Reabrir meta";
-    $textoMeta = "<span style=\"text-decoration: line-through\">".utf8_decode($r["meta"])."</span>";
-}else{
-    $textBt = "Meta cumprida!!";
-    $textoMeta = utf8_decode($r["meta"]);
-}
-
-
-              echo "
-<div id=\"meta_".$r["id"]."\" class=\"linhaMeta\">     ";
-?><ul id="icons" class="ui-widget ui-helper-clearfix">
-<? if($visitante == false){ ?>
-			<li class="ui-state-default ui-corner-all" title="<?= $textBt ?>" onclick="javascript:statusMeta('<?= $r["id"] ?>')"><span class="ui-icon ui-icon-circle-check"></span></li>
-			<li class="ui-state-default ui-corner-all" title="Setar esta como uma meta privada (ningu&eacute;m al&eacute;m de voc&ecirc; pode ver esta meta)"><span class="ui-icon ui-icon-link"></span></li>
-			<li class="ui-state-default ui-corner-all" title="Editar meta"><span class="ui-icon ui-icon-pencil"></span></li>
-			<li class="ui-state-default ui-corner-all" title="Excluir meta!!!"><span class="ui-icon ui-icon-circle-close"></span></li>
-<? }else{ ?>
-			<li style="margin-top: -4px;"><div class="fb-like" data-href="http://minhasmetas.webhoster.com.br/?meta=<?= $r["chave"] ?>" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="trebuchet ms"></div></li>
-<? }  
-if(strlen($textoMeta) > 90){
-   $linkOnClick = "\" onclick=\"abrePopup('".$h["id"]."')\" title=\"Clique para ver mais...\"";
-}else{
-   $linkOnClick = "cursor: default;\"";
-}
-echo "<li style=\"margin-top: -4px; $linkOnClick>".substr($textoMeta,0,90);
-if(strlen($textoMeta) > 90){ echo "..."; }
-echo "</li>";
-echo "</ul>
-</div>";
-}
- ?>
-</div>
-<?
-if(strlen($textoMeta) > 90){
-   $conteudo = "<p>$textoMeta<br><br>Postado em $dt, &agrave;s $hora</p><p align=\"center\"><a href=\"#\" onclick=\"fechaPopup('".$r["id"]."')\" id=\"dialog_link\" class=\"ui-state-default ui-corner-all\"><span class=\"ui-icon ui-icon-close\"></span>Fechar</a></p>";
-   janelaUI("metaDescricaoCompleta_".$r["id"],"divMetaDescricaoCompleta","300","200",$conteudo);
-}
-}
+include("functions.php");
 ?>

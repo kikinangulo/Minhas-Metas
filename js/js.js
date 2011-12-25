@@ -19,6 +19,15 @@ function statusMeta(id){
       $('#meta_'+id).html('...');
       $('#meta_'+id).load('src/statusMeta.php',{id: id});
 }
+
+function excluirMeta(id){
+      $('#listaTarefas').html('Meta sendo excluida... aguarde...');
+      $('#listaTarefas').load('src/remMeta.php',{id: id});
+      $('#inputmetas').val('');
+      $('#inputmetas').focus();
+}
+
+
 /**
  * http://www.openjs.com/scripts/events/keyboard_shortcuts/
  * Version : 2.01.A
