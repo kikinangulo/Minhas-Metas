@@ -6,12 +6,14 @@ function addMeta(){
       $('#inputmetas').focus();
 }
 
-function abrePop(id){
+function abrePopup(id){
       $('#metaDescricaoCompleta_'+id).show();
+      window.location.href='#';
 }
 
-function fechaPop(id){
+function fechaPopup(id){
       $('#metaDescricaoCompleta_'+id).hide();
+      window.location.href='#';
 }
 
 

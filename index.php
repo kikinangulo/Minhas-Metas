@@ -43,6 +43,15 @@ $naitik = $facebook->api('/naitik');
 
     <title>Minhas Metas</title>
     <link rel="stylesheet" href="stylesheets/screen.css" media="screen">
+    
+    
+<meta property="og:title" content="Minhas Metas" />
+<meta property="og:type" content="activity" />
+<meta property="og:url" content="http://guiaosorio.com.br/minhasmetas/" />
+<meta property="og:image" content="" />
+<meta property="og:site_name" content="Minhas Metas" />
+<meta property="fb:app_id" content="146244962151403" />
+
     <script>
       function popup(pageURL, title,w,h) {
         var left = (screen.width/2)-(w/2);
@@ -92,13 +101,22 @@ shortcut.add("Enter",function(){
   </head>
   <body>
     <header class="clearfix">
-      <? if($user){ ?> <p id="picture" style="background-image: url(https://graph.facebook.com/<?= $user ?>/picture"></p><? } ?>
+      <? if($user){ ?> <p id="picture" style="background-image: url(https://graph.facebook.com/<?= $user ?>/picture)"></p><? } ?>
 
       <div>
         <h1><? if($user){ ?>Bem vindo <strong><?= $user_profile['name'] ?></strong><? }else{ ?>Para usar este aplicativo voc&ecirc; precisa se logar no Facebook. Clique no bot&atilde;o abaixo para entrar:<? } ?></h1>
         <p class="tagline">
-          Voc&ecirc; est&aacute; usando o aplicativo 
-          <a href="http://minhasmetas.webhoster.com.br">Minhas Metas</a> desenvolvido por <a href="http://paico.com.br" target="_blank">paico</a>.
+          <div style="float: left; width: 350px;">Voc&ecirc; est&aacute; usando o aplicativo 
+          	<a href="http://minhasmetas.webhoster.com.br">Minhas Metas</a> desenvolvido por <a href="http://paico.com.br" target="_blank">paico</a>.
+          </div>
+          <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/pt_BR/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><div class="fb-like" data-href="http://guiaosorio.com.br/minhasmetas/" data-send="true" data-layout="button_count" data-width="250" data-show-faces="false" data-font="trebuchet ms" style="margin-top: -3px;"></div>
         </p>
       </div>
     </header>

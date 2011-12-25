@@ -18,7 +18,7 @@ if($visitante == true){
 
      
 <div id="listaTarefas">
-     <br><br> <h1><? if($visitante == true){ echo $titulo; }else{ echo "Voc&ecirc; tem ".total($sel1)." metas para ".anoAgora(); } ?></h1>
+     <h1><? if($visitante == true){ echo $titulo; }else{ echo "Voc&ecirc; tem ".total($sel1)." metas para ".anoAgora(); } ?></h1>
               <?
 while($r = fetch($sel1)){
 
@@ -54,7 +54,7 @@ $limiteCaracteres = 80;
 
 
 if(strlen($textoMeta) > $limiteCaracteres){
-   $linkOnClick = "\" onclick=\"abrePopup('".$h["id"]."')\" title=\"Clique para ver mais...\"";
+   $linkOnClick = "\" onclick=\"abrePopup('".$r["id"]."')\" title=\"Clique para ver mais...\"";
 }else{
    $linkOnClick = "cursor: default;\"";
 }
@@ -63,13 +63,13 @@ if(strlen($textoMeta) > $limiteCaracteres){ echo "..."; }
 echo "<small>, ($dt - $hora)</small></li>";
 echo "</ul>
 </div>";
-}
- ?>
-</div>
-<?
+
 if(strlen($textoMeta) > $limiteCaracteres){
    $conteudo = "<p>$textoMeta<br><br>Postado em $dt, &agrave;s $hora</p><p align=\"center\"><a href=\"#\" onclick=\"fechaPopup('".$r["id"]."')\" id=\"dialog_link\" class=\"ui-state-default ui-corner-all\"><span class=\"ui-icon ui-icon-close\"></span>Fechar</a></p>";
    janelaUI("metaDescricaoCompleta_".$r["id"],"divMetaDescricaoCompleta","300","200",$conteudo);
 }
+
 }
+ ?>
+</div><? }
 ?>
