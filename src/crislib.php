@@ -922,8 +922,10 @@ error_reporting(0);
 ini_set('display_errors','Off');
 
 function conexao(){
-   con("usuario","senha");
-   db("meudb");
+   #con("usuario","senha");
+   #db("meudb");
+   @mysql_connect("bm22.webservidor.net","gosorio_mmetas","fgsd168#$"); 
+   db("gosorio_db01");
 }
 
 function anoAgora(){

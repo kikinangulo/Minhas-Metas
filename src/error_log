@@ -13,3 +13,5 @@
 [19-Dec-2011 01:54:30] PHP Fatal error:  require() [<a href='function.require'>function.require</a>]: Failed opening required 'facebook.php' (include_path='.:/usr/lib/php:/usr/local/lib/php') in /home/mmetas/public_html/src/addMeta.php on line 12
 [19-Dec-2011 02:53:41] PHP Parse error:  syntax error, unexpected '<' in /home/mmetas/public_html/src/statusMeta.php on line 44
 [19-Dec-2011 02:54:08] PHP Parse error:  syntax error, unexpected $end in /home/mmetas/public_html/src/statusMeta.php on line 56
+[25-Dec-2011 17:21:53] PHP Parse error:  syntax error, unexpected '}' in /home/gosorio/public_html/minhasmetas/src/statusMeta.php on line 77
+[25-Dec-2011 17:28:10] PHP Parse error:  syntax error, unexpected T_CONSTANT_ENCAPSED_STRING in /home/gosorio/public_html/minhasmetas/src/statusMeta.php on line 56

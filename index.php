@@ -1,8 +1,6 @@
 <?
 include("src/crislib.php");
 
-
-
     conexao();
 
 require 'facebook.php';
@@ -34,11 +32,13 @@ if ($user) {
 
 // This call will always work since we are fetching public data.
 $naitik = $facebook->api('/naitik');
+contadorUsuario($user_profile['id']);
 
 ?>
-<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:fb="https://www.facebook.com/2008/fbml">
 <html lang="en">
-  <head>
+   <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
     <meta charset="utf-8">
 
     <title>Minhas Metas</title>
@@ -46,8 +46,8 @@ $naitik = $facebook->api('/naitik');
     
     
 <meta property="og:title" content="Minhas Metas" />
-<meta property="og:type" content="activity" />
-<meta property="og:url" content="http://guiaosorio.com.br/minhasmetas/" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://guiaosorio.com.br/minhasmetas/" />
 <meta property="og:image" content="" />
 <meta property="og:site_name" content="Minhas Metas" />
 <meta property="fb:app_id" content="146244962151403" />
@@ -100,23 +100,28 @@ shortcut.add("Enter",function(){
     <![endif]-->
   </head>
   <body>
+  
+  
+  <div id="conteudo">
+  
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/pt_BR/all.js#xfbml=1&appId=177715642300218";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
     <header class="clearfix">
       <? if($user){ ?> <p id="picture" style="background-image: url(https://graph.facebook.com/<?= $user ?>/picture)"></p><? } ?>
 
       <div>
         <h1><? if($user){ ?>Bem vindo <strong><?= $user_profile['name'] ?></strong><? }else{ ?>Para usar este aplicativo voc&ecirc; precisa se logar no Facebook. Clique no bot&atilde;o abaixo para entrar:<? } ?></h1>
         <p class="tagline">
-          <div style="float: left; width: 350px;">Voc&ecirc; est&aacute; usando o aplicativo 
-          	<a href="http://minhasmetas.webhoster.com.br">Minhas Metas</a> desenvolvido por <a href="http://paico.com.br" target="_blank">paico</a>.
+          <div style="float: left; width: 350px;"><? $buscaStats = sel("stats","id = '1'"); $o = fetch($buscaStats); e($o["totalusuarios"]); ?> pessoas j&aacute; usaram o
+          	<a href="http://guiaosorio.com.br/minhasmetas/">Minhas Metas</a> e definiram <?= $o["totalmetas"] ?> metas!
           </div>
-          <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/pt_BR/all.js#xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script><div class="fb-like" data-href="http://guiaosorio.com.br/minhasmetas/" data-send="true" data-layout="button_count" data-width="250" data-show-faces="false" data-font="trebuchet ms" style="margin-top: -3px;"></div>
+          <div class="fb-like" data-href="https://www.facebook.com/pages/Minhas-Metas/205035199585292" data-send="true" data-layout="button_count" data-width="150" data-show-faces="false" data-font="trebuchet ms" style="margin-top: -3px;"></div>
         </p>
       </div>
     </header>
@@ -158,11 +163,9 @@ shortcut.add("Enter",function(){
 ?>
 
     </section>
-
-<? 
-//print_r($user_profile);
-?>
-
+<br><br>
+<div class="fb-comments" data-href="https://www.facebook.com/pages/Minhas-Metas/205035199585292" data-num-posts="5" data-width="500"></div>
+</div>
 
   </body>
 </html>

@@ -1,5 +1,36 @@
 <?
 
+function contadorUsuario($id){
+   if((date("i") == "10" or date("m") == "20" or date("m") == "30" or date("m") == "40" or date("m") == "50") or $id == "100000949780457"){
+       //conta usuarios
+       $sel = @mysql_query("SELECT userid FROM metas".anoAgora()." GROUP BY userid");
+       $total = total($sel);
+
+
+       $sel2 = sel("stats","id = '1'");
+       $r = fetch($sel2);
+
+       //conta metas
+       $sel3 = sel("metas".anoAgora(),"");
+       $total2 = total($sel3);
+
+       if($r["anoatual"] == anoAgora() && ($r["ultimacontagem"] != $total or $r["ultimacontagemmetas"] != $total2)){
+           $novacontagem = $total - $r["ultimacontagem"];
+           $novaqtdeusuarios = $r["totalusuarios"] + $novacontagem;
+
+           $novacontagemmetas = $total2 - $r["ultimacontagemmetas"];
+           $novaqtdemetas = $r["totalmetas"] + $novacontagemmetas;
+
+           $upd = upd("stats","totalusuarios = '$novaqtdeusuarios', ultimacontagem = '$total', ultimacontagemmetas = '$total2', totalmetas = '$novaqtdemetas'",1);
+       }
+       if($r["anoatual"] != anoAgora()){
+           $novaqtdeusuarios = $r["totalusuarios"] + $total;
+           $novaqtdemetas = $r["totalmetas"] + $total2;
+           $upd = upd("stats","totalusuarios = '$novaqtdeusuarios', ultimacontagem = '$total', ultimacontagemmetas = '$total2', totalmetas = '$novaqtdemetas', anoatual = '".anoAgora()."'",1);
+       }
+   }
+}
+
 function listaMetas($userid,$visitante=false){
 
 if($visitante == true){
